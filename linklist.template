@@ -1,0 +1,351 @@
+/*
+  Andrew Crandall
+  CSC 161
+  Jeopardy #2
+  04/14/2022
+  Title:LinkList declaration file
+*/
+
+
+
+template <class T>
+void LinkList<T>::append(T dataItem){
+  // calls on alloc to create new data
+  //sets prt to create new data item
+  //determines where to add ptr, if list is emtpy its the only data
+  //else find the last Node, and set pointer to lasts next node
+  Node<T>* ptr = alloc(dataItem);
+
+  if(isEmpty()){
+    first = ptr;
+    last = ptr;
+  }
+  else{
+    last->next = ptr;
+    last = ptr;
+  }
+}
+
+template <class T>
+void LinkList<T>::prepend(T dataItem){
+    //calls on alloc
+    //if list is emtpy, ptr is set to first and last
+    //otherwise the ptrs next is set to first, and first is set to ptr.
+    Node<T>* ptr = alloc(dataItem);
+    
+    if(isEmpty()){
+        first = ptr;
+        last = ptr;
+    }
+    else{
+        ptr->next = first;
+        first = ptr;
+    }
+}
+
+
+template <class T>
+int LinkList<T>::getSize(){
+  //count is set to 0, this keeps track of number of nodes
+  //determines if list is empty, if not for loop for each node returns count
+    int count = 0;
+    if(isEmpty()){
+        count = 0;
+        return count;
+    }
+
+    else{
+        for(Node<T>* cursor = first; cursor != nullptr; cursor = cursor->next)
+            count = count + 1;
+   
+    }
+  return count;
+ }
+
+template <class T>
+bool LinkList<T>::find(T itemToFind){
+  //Find specific node, cursor is iteraded through each node, until data is found
+  Node<T>* cursor;
+  for(cursor = first; cursor != nullptr; cursor = cursor->next){
+    if (cursor->data == itemToFind)
+        return true;
+  }
+  return false;
+}
+
+
+template <class T>
+T LinkList<T>::at(int count){
+  Node<T>* cursor = first;
+  int size = 1;
+  for(cursor = first; cursor != nullptr; cursor = cursor->next){
+    if(size == count)
+      return cursor->data;
+    size++;
+  }
+  return T(); // default object - count never found
+}
+
+
+
+
+
+template <class T>
+void LinkList<T>::free(){
+  //cursor is set to first
+  //while cursor has a node, delete cursor, set cursor to next node
+  Node<T>* cursor = first;
+  while (cursor != nullptr){
+      first = cursor -> next;
+      delete cursor;
+      cursor = first;
+    }
+}
+
+
+
+template <class T>
+ void LinkList<T>::printBackwards(){
+//recursion of printingBackwards
+ printBackwards(first);
+ }
+
+ template <class T>
+ void LinkList<T>::printQuestions(){
+
+    //specific for jeopardy
+    //cursor is iterated through each node
+    //outputs each data of node, converts to upper and splits on '.'
+    Node<T>* cursor;
+    int count = 1;
+    for(cursor = first; cursor != nullptr; cursor = cursor->next){
+
+    T tmp = cursor->data;
+    //tmp = this->split('.');
+   //tmp = this->toUpper();
+
+    
+      
+        std::cout << "    Category " << count << "    " << tmp << std::endl << std::endl;
+        count = count + 1;
+    
+    }
+ 
+ }
+
+ template <class T>
+ void LinkList<T>::printBackwards(Node<T>* cursor){
+//determines if cursor is not null, else print each cursor data
+ if(cursor != nullptr){
+    printBackwards(cursor->next);
+    std::cout << cursor->data << "\n";
+    }
+ }
+
+template<class T>
+Node<T> * LinkList<T>::alloc(T dataItem)
+{
+  //creates new ptr
+  //returns that ptr to list
+  Node<T>* ptr = new Node<T>(dataItem);
+  return ptr;
+}
+
+
+//Copy Constructor
+template <class T>
+LinkList<T>::LinkList(const LinkList<T>& source){
+ //sets first and last to null
+  //appends cursor to list
+  first = nullptr;
+  last = nullptr;
+
+  for(Node<T>* cursor = source.first; cursor != nullptr; cursor = cursor->next){
+  append(cursor->data);
+  }
+
+}
+
+
+//Assignment operator
+template <class T>
+LinkList<T>& LinkList<T>::operator=(const LinkList<T>& source){
+    if(this == &source) return *this;
+    else{
+       free();
+       first = nullptr;
+       last = nullptr;
+       Node<T>* cursor;
+       for(cursor = source.first; cursor != nullptr; cursor = cursor->next)
+            this->append(cursor->data);   
+    }
+    return *this;
+}
+
+
+//destructor
+
+template <class T>
+
+//delets each node of list
+LinkList<T>::~LinkList(){
+    free();
+}
+
+
+ template <class T>
+bool LinkList<T>::removeByItem(T dataItem){
+
+/*
+Since this is a single LinkList I found it difficult to get a tmp ptr to point to the previous node
+First set Node prev to first, this will follow cursor as long as dataItem to delete is not the first node (this is because prev would point to null)
+As long as dataItem to delete is not the first node, set node tmp to prev of cursor
+set its next to cursors next
+Make sure the next value of tmp is not null, if it is it is then last of list
+
+if the data item to delete is first node
+first is then the next node to cursor
+delete cursor (pointint to first node)
+
+*/
+
+    Node<T>* cursor = first;
+
+    if(isEmpty())
+        return false;
+
+
+       else if (cursor->data == dataItem){
+            first = cursor->next;
+            delete cursor;
+            return true;
+       }
+        
+    else{
+       
+       
+       Node<T>* prev = first;
+
+       Node<T>* cursor;
+
+       for(cursor = first; cursor != nullptr; cursor = cursor->next){
+       
+
+       if (cursor->data == dataItem){ // FOUND NODE TO DELETE and cursor is not the first node
+
+          Node<T>* tmp = prev;          // SETS tmp to previous node
+          tmp->next = cursor->next;     //tmp(previous node) next is set to cursors next (skipping cursor)
+          delete cursor;
+          if(tmp->next == nullptr)      //if tmps next is now nullptr, end of list tmp is now last
+              last = tmp;
+
+              
+              return true;
+       }
+
+
+       
+       prev = cursor;
+      }
+      return false;
+     }
+  }
+
+
+    template < class T >
+    bool LinkList<T>::readFile(std::string fileName){
+    // Read from file until end of file. append each item.
+  //creates ifstream object of file, iterates through each data point of file until end
+  //sets each data to a new node
+  //closes file and returns true/false
+
+    std::ifstream file;
+	file.open(fileName);
+
+	if (!file)
+		return false;
+
+	else {
+		T data;
+file >> data;
+		while (!file.eof()) {
+			
+			append(data);
+file >> data;
+		}
+        file.close();
+		return true;
+	
+    
+    }
+	return false;
+}
+
+
+
+
+template < class T >
+bool LinkList<T>::writeFile(std::string fileName){
+	/*
+	creates ofstream, file
+	opens file with name provided
+	if fine is unable to be opened, return false breaks from function
+	else iterate through each object in the bag data
+	once done close file and return true
+	*/
+	std::ofstream file;
+
+	file.open(fileName);
+
+	if (!file)
+		return false;
+
+        
+	else {
+
+    for(Node<T>* cursor = first; cursor != nullptr; cursor = cursor->next){
+        file << cursor->data << std::endl;
+        }
+		file.close();
+		return true;
+	}
+}
+
+
+template < class T >
+T LinkList<T>::getRandomItem(){
+
+  //max is set to the list size
+  //randIndex is the random number between 0 and max
+  //loops throgh list using tmp, and returns tmps data based upon randIndex
+
+    int size = (this->getSize());
+    // std::cout << "\nSize: " << size << "\n";
+
+    if(size == 0)
+    return first->data;
+
+    int randIndex;
+
+    randIndex = rand() % size;
+
+    Node<T>* tmp = first;
+    int count = 0;
+
+    for(tmp = first; tmp != nullptr; tmp = tmp->next){
+    
+      if(count == randIndex) // randIndex is 0 based
+        return tmp->data;
+      count++;
+    }
+    /*
+    while(count != randIndex){
+    tmp = tmp->next;
+    count = count + 1;
+    }
+
+    return tmp->data;*/
+
+    return T(); // default object if no random
+    }
+    

@@ -1,0 +1,10 @@
+Chess,What piece on the board shares the same name as a religious leader?,Bishop,100
+Chess,What is the most numerous piece on the board?,Pawn,200
+Chess,What is the manuever in which the king and rook switch positions?,Castling,300
+Chess,Can the king castle through a check?,No,400
+Chess,Can a king and bishop checkmate?,No,500
+Chess,What is the tactic in which a piece attacks two or more pieces simultaneously?,Fork,600
+Chess,What is the second stage of a chessgame called?,Middlegame,700
+Chess,Who is the current world chess champion?,Carlsen,800
+Chess,Who invented the modern chess clock with a time delay?,Fischer,900
+Chess,What American broke the winning streak of the USSR in the 1972 World Chess Championship?,Bobby_Fischer,2000

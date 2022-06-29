@@ -1,0 +1,15 @@
+Programming,When was C++ initially standardized?,1998,100
+Programming,Given the C++ example what type of variable is shown? myGrade = 'B', Char,200
+Programming,How many bits is one byte?,8,300
+Programming,What language describes how HTML elements are displayed?,CSS,400
+Programming,In OOP what is an instance of a particular class?,Object,500
+Programming,Who developed c++? (LAST NAME),Stroutstrup,600
+Programming,What is a standard data transmission code that represents both textual data and non input commands?,ASCII,700
+Programming,What keyword is used within loops which allows for termination and exiting of the loop?,Break,800
+Programming,A ______ statement evaluates an expression by comparing the expressions value to a case,Switch,900
+Programming,What OOP element is used to contain all variables and methods into a single entity,Encapsulation,1000
+Programming,What loop is used over a number of known iterations?,For,1100
+Programming,In Python while creating a string there is a difference between the use of double and single quotation marks (True/False),FALSE,1200
+Programming,What data type is the size of one byte?,Char,1300
+Programming,How many characters does ASCII represent?,128,1400
+Programming,What OOP concept allows for objects to take multiple forms in different instances?,Polymorphism,1500
